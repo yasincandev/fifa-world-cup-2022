@@ -2,14 +2,11 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
   TableCaption,
   TableContainer,
-  Card,
-  Text,
   Image,
   Flex,
   SimpleGrid,
@@ -38,13 +35,8 @@ const Groups = ({ teams }) => {
         spacing={{ base: 5, lg: 8 }}
         mb={5}
       >
-        {teams.map((team) => (
-          <TableContainer
-            p={"1rem"}
-            rounded={"lg"}
-            key={team.id}
-            color={"black"}
-          >
+        {teams.map((team, idx) => (
+          <TableContainer p={"1rem"} rounded={"lg"} key={idx} color={"black"}>
             <Table
               bg={"#8D1B3D"}
               _dark={{
@@ -77,8 +69,8 @@ const Groups = ({ teams }) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {team.teams.map((team) => (
-                  <Tr key={team.id}>
+                {team.teams.map((team, index) => (
+                  <Tr key={index}>
                     <Td>
                       <Image
                         boxSize='25px'

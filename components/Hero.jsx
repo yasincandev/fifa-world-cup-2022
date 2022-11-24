@@ -63,12 +63,24 @@ export default function CallToActionWithVideo() {
               rounded={"full"}
               size={"lg"}
               fontWeight={"normal"}
-              px={6}
+              py={10}
+              px={3}
               color={"white"}
               bg={useColorModeValue("#8D1B3D", "#550065")}
-              _hover={{ bg: "red.500" }}
+              _hover={{ bg: "#550065" }}
+              _dark={{
+                _hover: {
+                  bg: "#8D1B3D",
+                },
+              }}
               onClick={handleScrollDown}
             >
+              <Image
+                alt={"Hero Image"}
+                src={"/assets/heroicon.gif"}
+                objectFit={"cover"}
+                boxSize={"100px"}
+              />{" "}
               Get Started
             </Button>
           </Stack>

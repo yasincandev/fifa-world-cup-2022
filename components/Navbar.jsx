@@ -1,16 +1,11 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   Link,
   IconButton,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
+  ButtonProps,
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -18,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Image } from "@chakra-ui/react";
+import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 
 const Links = ["Matches", "Groups", "Playoffs", "Players"];
 
@@ -36,20 +32,20 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-function Switcher() {
+function Switcher(props) {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <IconButton
-      aria-label='Toggle Color Mode'
-      icon={
-        colorMode === "light" ? (
-          <MoonIcon color='#000' />
-        ) : (
-          <SunIcon color='#fff' />
-        )
-      }
-      onClick={toggleColorMode}
-    />
+    <Flex h='100vh' justifyContent='center' alignItems='center'>
+      <Button
+        aria-label='Toggle Color Mode'
+        onClick={toggleColorMode}
+        _focus={{ boxShadow: "none" }}
+        w='fit-content'
+        {...props}
+      >
+        {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+      </Button>
+    </Flex>
   );
 }
 
@@ -88,7 +84,7 @@ export default function Navbar() {
           </HStack>
         </HStack>
         <Flex alignItems={"center"}>
-          <Switcher color={useColorModeValue("#8D1B3D", "#550065")} />
+          <Switcher color={useColorModeValue("#8D1B3D", "#ffffff")} />
         </Flex>
       </Flex>
 

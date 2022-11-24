@@ -14,16 +14,8 @@ import { MdOutlinePlace } from "react-icons/md";
 import { BsStopwatch } from "react-icons/bs";
 import dayjs from "dayjs";
 import { useState } from "react";
-import MatchDetails from "./MatchDeatils";
 
 const Today = ({ matches }) => {
-  const [selectedMatch, setSelectedMatch] = useState(null);
-
-  const handleMatchClick = (id) => {
-    const match = matches.find((match) => match.id === id);
-    setSelectedMatch(match);
-  };
-
   return (
     <Box
       color={"white"}
@@ -131,13 +123,6 @@ const Today = ({ matches }) => {
                   <Text fontWeight={"medium"}>{match.venue}</Text>
                 </Flex>
               </Flex>
-              <Button
-                colorScheme='red'
-                variant='solid'
-                onClick={() => handleMatchClick(match.id)}
-              >
-                View Details
-              </Button>
             </Flex>
             <Stat
               px={{ base: 2, md: 4 }}

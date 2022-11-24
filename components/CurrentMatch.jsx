@@ -30,7 +30,7 @@ const CurrentMatch = ({ current }) => {
         Now Playing
       </chakra.h1>
 
-      {current === undefined ? (
+      {current.length === 0 ? (
         <Flex
           justifyContent={"space-evenly"}
           alignItems={"center"}

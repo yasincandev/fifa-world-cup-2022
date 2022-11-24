@@ -1,30 +1,5 @@
-import {
-  Box,
-  chakra,
-  Container,
-  Stack,
-  Text,
-  Image,
-  Flex,
-  VStack,
-  Button,
-  Heading,
-  SimpleGrid,
-  StackDivider,
-  useColorModeValue,
-  VisuallyHidden,
-  List,
-  ListItem,
-  HStack,
-  Icon,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-} from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import SoccerLineUp from "react-soccer-lineup";
-import { useState, useEffect } from "react";
 
 const Lineups = ({ home_team_lineup, away_team_lineup }) => {
   const homeLineup = home_team_lineup.starting_eleven;

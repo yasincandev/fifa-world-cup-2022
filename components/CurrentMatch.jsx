@@ -35,7 +35,6 @@ const CurrentMatch = ({ current }) => {
           justifyContent={"space-evenly"}
           alignItems={"center"}
           maxW={"7xl"}
-          centerContent
           py={10}
           px={{ base: 2, sm: 12, md: 17 }}
           bg={"#8D1B3D"}

@@ -1,27 +1,11 @@
 import {
-  Box,
-  chakra,
   Container,
-  Stack,
-  Text,
-  Image,
-  Flex,
-  VStack,
-  Button,
-  Heading,
-  SimpleGrid,
-  StackDivider,
-  useColorModeValue,
-  VisuallyHidden,
-  List,
-  ListItem,
-  HStack,
-  Icon,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
+  Button,
 } from "@chakra-ui/react";
 import Score from "./Score";
 import Info from "./Info";

@@ -8,12 +8,15 @@ import {
   Image,
   Text,
   Icon,
-  Button,
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
+  Container,
+  Skeleton,
+  SkeletonText,
+  Spinner,
 } from "@chakra-ui/react";
 import { MdOutlinePlace } from "react-icons/md";
 import { BsStopwatch } from "react-icons/bs";
@@ -25,18 +28,22 @@ const PreviousMatches = ({ previous }) => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [id, setId] = useState(null);
   const [country, setCountry] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const getDetails = async (match, id, country) => {
+  const getDetails = async (id, country) => {
+    setLoading(true);
     const res = await fetch(
       `https://worldcupjson.net/matches/country/${country}?details=true`
     );
     const data = await res.json();
     const matchDetails = data.filter((match) => match.id === id);
+    console.log("matchDetails", matchDetails);
     setSelectedMatch(matchDetails[0]);
+    setLoading(false);
   };
 
   return (
-    <Box
+    <Container
       color={"white"}
       maxW='7xl'
       mx={"auto"}
@@ -192,7 +199,7 @@ const PreviousMatches = ({ previous }) => {
                   </Flex>
                 </Stat>
               </SimpleGrid>
-              <Accordion allowMultiple>
+              <Accordion allowToggle>
                 <AccordionItem label='Match Details'>
                   <AccordionButton
                     bg={"#8D1B3D"}
@@ -200,9 +207,7 @@ const PreviousMatches = ({ previous }) => {
                       bg: "#550065",
                     }}
                     onClick={() => {
-                      getDetails(match, match.id, match.home_team.country);
-                      setId(match.id);
-                      setCountry(match.home_team.country);
+                      getDetails(match.id, match.home_team.country);
                     }}
                   >
                     <Box flex='1' color={"black"} textAlign='left'>
@@ -210,24 +215,28 @@ const PreviousMatches = ({ previous }) => {
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
-
-                  <AccordionPanel pb={4}>
-                    {selectedMatch && (
-                      <MatchDetails selectedMatch={selectedMatch} />
-                    )}
-                  </AccordionPanel>
+                  {loading ? (
+                    <Spinner
+                      thickness='4px'
+                      speed='0.65s'
+                      emptyColor='gray.200'
+                      color='blue.500'
+                      size='xl'
+                    />
+                  ) : (
+                    <AccordionPanel pb={4}>
+                      {selectedMatch && (
+                        <MatchDetails selectedMatch={selectedMatch} />
+                      )}
+                    </AccordionPanel>
+                  )}
                 </AccordionItem>
               </Accordion>
             </Box>
           )
       )}
-    </Box>
+    </Container>
   );
 };
 
 export default PreviousMatches;
-
-/*
-   <Image src={`/assets/${match.home_team.country}.jpg`} alt={match.home_team.country} />
-   <Image src={`/assets/${match.away_team.country}.jpg`} alt={match.away_team.country} />
-  */

@@ -6,33 +6,38 @@ import {
   Circle,
   Flex,
   Text,
+  Icon,
 } from "@chakra-ui/react";
 import HomeLineup from "./HomeLineup";
 import AwayLineup from "./AwayLineup";
+import { Pitch } from "../Icons";
 
 const Lineups = ({ home_team_lineup, away_team_lineup }) => {
   const homeLineup = home_team_lineup.starting_eleven;
   const awayLineup = away_team_lineup.starting_eleven;
+
+  console.log("homeLineup", homeLineup);
+  console.log("awayLineup", awayLineup);
 
   return (
     <Box>
       <Heading as='h3' size='md' mb='2'>
         Lineup
       </Heading>
-      <Container
-        position='relative'
-        height='500px'
-        width='100%'
-        bg='url(/assets/pitch.jpg)'
-        bgSize='cover'
-        bgRepeat='no-repeat'
-        bgPosition='center'
-        borderRadius='lg'
-        overflow='hidden'
+      <Flex
+        maxW='container.xl'
+        direction={{ base: "column", md: "row" }}
+        justifyContent={"space-evenly"}
+        alignItems={"center"}
+        mx={"auto"}
+        py={5}
+        gap={5}
+        px={{ base: 2, sm: 12, md: 17 }}
       >
         <HomeLineup homeLineup={homeLineup} />
+        <Icon as={Pitch} w={250} h={250} />
         <AwayLineup awayLineup={awayLineup} />
-      </Container>
+      </Flex>
     </Box>
   );
 };

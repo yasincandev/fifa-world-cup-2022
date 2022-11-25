@@ -10,7 +10,7 @@ export default function Home({ matches, teams, previous, current }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch("https://worldcupjson.net/matches/today");
   const res2 = await fetch("https://worldcupjson.net/teams");
   const res3 = await fetch("https://worldcupjson.net/matches/?by_date=ASC");

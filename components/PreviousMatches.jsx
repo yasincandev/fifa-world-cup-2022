@@ -11,24 +11,26 @@ import {
   Container,
   Button,
   useDisclosure,
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
   AlertDialog,
   AlertDialogBody,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  Spinner,
 } from "@chakra-ui/react";
 import { MdOutlinePlace } from "react-icons/md";
 import { BsStopwatch } from "react-icons/bs";
 import dayjs from "dayjs";
 import { useRef, useState } from "react";
-import MatchDetails from "./MatchDetails/MatchDeatils";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const DynamicMatchDetails = dynamic(
+  () => import("./MatchDetails/MatchDeatils"),
+  {
+    ssr: false,
+    suspense: true,
+  }
+);
 
 const PreviousMatches = ({ previous }) => {
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -232,16 +234,18 @@ const PreviousMatches = ({ previous }) => {
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                          <MatchDetails
-                            selectedMatch={selectedMatch}
-                            country={country}
-                            id={id}
-                            setSelectedMatch={setSelectedMatch}
-                            setCountry={setCountry}
-                            setId={setId}
-                            loading={loading}
-                            setLoading={setLoading}
-                          />
+                          <Suspense fallback={<Spinner />}>
+                            <DynamicMatchDetails
+                              selectedMatch={selectedMatch}
+                              country={country}
+                              id={id}
+                              setSelectedMatch={setSelectedMatch}
+                              setCountry={setCountry}
+                              setId={setId}
+                              loading={loading}
+                              setLoading={setLoading}
+                            />
+                          </Suspense>
                         </AlertDialogBody>
                       </AlertDialogContent>
                     </AlertDialogOverlay>

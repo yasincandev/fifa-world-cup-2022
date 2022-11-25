@@ -5,13 +5,15 @@ import {
   SimpleGrid,
   Stat,
   StatLabel,
-  StatNumber,
   Image,
-  Container,
   Text,
-  useColorModeValue,
   Icon,
   Button,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react";
 import { MdOutlinePlace } from "react-icons/md";
 import { BsStopwatch } from "react-icons/bs";
@@ -29,7 +31,6 @@ const PreviousMatches = ({ previous }) => {
       `https://worldcupjson.net/matches/country/${country}?details=true`
     );
     const data = await res.json();
-    //the data comes from api is so long, so we need to filter it to get the match we want to show. We can use filter method to do that. For example id= 11 is the match we want to show, so we can use filter method to get the match with id=11.
     const matchDetails = data.filter((match) => match.id === id);
     setSelectedMatch(matchDetails[0]);
   };
@@ -53,12 +54,6 @@ const PreviousMatches = ({ previous }) => {
         }}
       >
         Previous Matches And Results
-        {selectedMatch && (
-          <MatchDetails
-            selectedMatch={selectedMatch}
-            setSelectedMatch={setSelectedMatch}
-          />
-        )}
       </chakra.h1>
 
       {previous?.map(
@@ -83,7 +78,7 @@ const PreviousMatches = ({ previous }) => {
                   _dark={{
                     bg: "#550065",
                   }}
-                  rounded={"lg"}
+                  roundedTop={"md"}
                 >
                   <Flex
                     direction={"column"}
@@ -119,7 +114,7 @@ const PreviousMatches = ({ previous }) => {
                   _dark={{
                     bg: "#550065",
                   }}
-                  rounded={"lg"}
+                  roundedTop={"md"}
                   textAlign={"center"}
                   justifyContent={"space-around"}
                   alignItems={"center"}
@@ -159,17 +154,6 @@ const PreviousMatches = ({ previous }) => {
                       <Icon as={MdOutlinePlace} w={6} h={6} />
                       <Text fontWeight={"medium"}>{match.venue}</Text>
                     </Flex>
-                    <Button
-                      colorScheme='red'
-                      variant='solid'
-                      onClick={() => {
-                        getDetails(match, match.id, match.home_team.country);
-                        setId(match.id);
-                        setCountry(match.home_team.country);
-                      }}
-                    >
-                      View Details
-                    </Button>
                   </Flex>
                 </Flex>
                 <Stat
@@ -180,7 +164,7 @@ const PreviousMatches = ({ previous }) => {
                   _dark={{
                     bg: "#550065",
                   }}
-                  rounded={"lg"}
+                  roundedTop={"md"}
                 >
                   <Flex
                     direction={"column"}
@@ -208,6 +192,32 @@ const PreviousMatches = ({ previous }) => {
                   </Flex>
                 </Stat>
               </SimpleGrid>
+              <Accordion allowMultiple>
+                <AccordionItem label='Match Details'>
+                  <AccordionButton
+                    bg={"#8D1B3D"}
+                    _dark={{
+                      bg: "#550065",
+                    }}
+                    onClick={() => {
+                      getDetails(match, match.id, match.home_team.country);
+                      setId(match.id);
+                      setCountry(match.home_team.country);
+                    }}
+                  >
+                    <Box flex='1' color={"black"} textAlign='left'>
+                      Click to see match details
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+
+                  <AccordionPanel pb={4}>
+                    {selectedMatch && (
+                      <MatchDetails selectedMatch={selectedMatch} />
+                    )}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             </Box>
           )
       )}

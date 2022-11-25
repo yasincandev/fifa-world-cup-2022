@@ -8,13 +8,56 @@ import {
   Skeleton,
   SkeletonCircle,
   SkeletonText,
+  Spinner,
 } from "@chakra-ui/react";
 import Score from "./Score";
 import Info from "./Info";
 import Goals from "./Goals";
 import Lineups from "./Lineups";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const MatchDetails = ({ selectedMatch, setSelectedMatch }) => {
+const MatchDetails = ({
+  selectedMatch,
+  setSelectedMatch,
+  country,
+  id,
+  loading,
+  setLoading,
+}) => {
+  const getMatchDetails = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `https://worldcupjson.net/matches/country/${country}?details=true`
+      );
+      const match = data.filter((match) => match.id === id);
+      console.log(match);
+      await setSelectedMatch(match[0]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getMatchDetails();
+  }, []);
+
+  /*  useEffect(() => {
+    
+          setLoading(true);
+          const getDetails = async () => {
+            const { data } = await axios.get(
+           
+            );
+            const match = data.find((match) => match.id === id);
+            setSelectedMatch(match);
+          };
+      
+          setLoading(false);
+          getDetails();
+        }, []); */
   const {
     home_team_country,
     away_team_country,
@@ -34,13 +77,19 @@ const MatchDetails = ({ selectedMatch, setSelectedMatch }) => {
 
   return (
     <Container
-      maxW={"7xl"}
+      maxW='container.xl'
       bg={"#8D1B3D"}
       _dark={{
         bg: "#550065",
       }}
+      color={"white"}
+      mx={"auto"}
+      py={5}
+      px={{ base: 2, sm: 12, md: 17 }}
     >
-      {selectedMatch ? (
+      {loading ? (
+        <Spinner />
+      ) : (
         <>
           <Score
             home_team={home_team}
@@ -76,8 +125,6 @@ const MatchDetails = ({ selectedMatch, setSelectedMatch }) => {
             </TabPanels>
           </Tabs>
         </>
-      ) : (
-        <Skeleton height='100vh' />
       )}
     </Container>
   );

@@ -6,7 +6,7 @@ const Goals = ({ home_team_events, away_team_events }) => {
   return (
     <Flex align={"center"} justify={"space-between"} p={5} rounded={"lg"}>
       <Flex direction={"column"} gap={2} rounded={"lg"}>
-        {home_team_events.map(
+        {home_team_events?.map(
           (event) =>
             event.type_of_event === "goal" && (
               <Flex
@@ -30,7 +30,7 @@ const Goals = ({ home_team_events, away_team_events }) => {
       </Flex>
       <Icon as={SoccerBall} w={10} h={10} />
       <Flex direction={"column"} gap={2} rounded={"lg"}>
-        {away_team_events.map(
+        {away_team_events?.map(
           (event) =>
             event.type_of_event === "goal" && (
               <Flex

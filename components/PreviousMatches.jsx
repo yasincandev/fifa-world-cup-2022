@@ -8,39 +8,45 @@ import {
   Image,
   Text,
   Icon,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionIcon,
-  AccordionPanel,
   Container,
-  Skeleton,
-  SkeletonText,
-  Spinner,
+  Button,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from "@chakra-ui/react";
 import { MdOutlinePlace } from "react-icons/md";
 import { BsStopwatch } from "react-icons/bs";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MatchDetails from "./MatchDetails/MatchDeatils";
 
 const PreviousMatches = ({ previous }) => {
   const [selectedMatch, setSelectedMatch] = useState(null);
-  const [id, setId] = useState(null);
   const [country, setCountry] = useState(null);
+  const [id, setId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getDetails = async (id, country) => {
+  const handleMatchClick = (match) => {
     setLoading(true);
-    const res = await fetch(
-      `https://worldcupjson.net/matches/country/${country}?details=true`
-    );
-    const data = await res.json();
-    const matchDetails = data.filter((match) => match.id === id);
-    console.log("matchDetails", matchDetails);
-    setSelectedMatch(matchDetails[0]);
+    setSelectedMatch(match);
+    setCountry(match.home_team_country);
+    setId(match.id);
     setLoading(false);
+    console.log(match);
   };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   return (
     <Container
@@ -198,40 +204,50 @@ const PreviousMatches = ({ previous }) => {
                     </Box>
                   </Flex>
                 </Stat>
-              </SimpleGrid>
-              <Accordion allowToggle>
-                <AccordionItem label='Match Details'>
-                  <AccordionButton
-                    bg={"#8D1B3D"}
-                    _dark={{
-                      bg: "#550065",
-                    }}
-                    onClick={() => {
-                      getDetails(match.id, match.home_team.country);
-                    }}
+
+                <Button
+                  colorScheme='blue'
+                  //double on click in a single click
+                  onClick={() => {
+                    handleMatchClick(match);
+                    onOpen();
+                  }}
+                  mx={"auto"}
+                  my={5}
+                >
+                  Match Details
+                </Button>
+                {selectedMatch && (
+                  <AlertDialog
+                    isOpen={isOpen}
+                    leastDestructiveRef={cancelRef}
+                    onClose={onClose}
+                    size={{ base: "xs", md: "xl" }}
+                    motionPreset='slideInBottom'
                   >
-                    <Box flex='1' color={"black"} textAlign='left'>
-                      Click to see match details
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                  {loading ? (
-                    <Spinner
-                      thickness='4px'
-                      speed='0.65s'
-                      emptyColor='gray.200'
-                      color='blue.500'
-                      size='xl'
-                    />
-                  ) : (
-                    <AccordionPanel pb={4}>
-                      {selectedMatch && (
-                        <MatchDetails selectedMatch={selectedMatch} />
-                      )}
-                    </AccordionPanel>
-                  )}
-                </AccordionItem>
-              </Accordion>
+                    <AlertDialogOverlay>
+                      <AlertDialogContent>
+                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                          Match Details
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                          <MatchDetails
+                            selectedMatch={selectedMatch}
+                            country={country}
+                            id={id}
+                            setSelectedMatch={setSelectedMatch}
+                            setCountry={setCountry}
+                            setId={setId}
+                            loading={loading}
+                            setLoading={setLoading}
+                          />
+                        </AlertDialogBody>
+                      </AlertDialogContent>
+                    </AlertDialogOverlay>
+                  </AlertDialog>
+                )}
+              </SimpleGrid>
             </Box>
           )
       )}
@@ -240,3 +256,6 @@ const PreviousMatches = ({ previous }) => {
 };
 
 export default PreviousMatches;
+
+/*
+ */

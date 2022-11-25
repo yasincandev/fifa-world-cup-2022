@@ -13,32 +13,38 @@ const AwayLineup = ({ awayLineup }) => {
         textAlign={"center"}
         gap={3}
       >
-        {awayLineup.map((player) => (
+        {awayLineup?.map((player) => (
           <Flex
             key={player.name}
-            direction={"row-reverse"}
             alignItems={"center"}
-            textAlign={"center"}
-            gap={5}
+            direction={"column"}
+            px={2}
           >
-            <Circle w='40px' h='40px' bg='tomato' color='white'>
-              {player.shirt_number}
-            </Circle>
-            <Text
-              textTransform={"capitalize"}
-              fontWeight={"medium"}
-              fontSize={"lg"}
+            <Flex
+              alignItems={"center"}
               textAlign={"center"}
-              color={"gray.600"}
+              direction={"row"}
+              gap={5}
             >
-              {player.position === "Goalkeeper"
-                ? "GK"
-                : player.position === "Defender"
-                ? "DF"
-                : player.position === "Midfielder"
-                ? "MF"
-                : "FW"}
-            </Text>
+              <Circle w='20px' h='20px' bg='tomato' color='white'>
+                <span>{player.shirt_number}</span>
+              </Circle>
+              <Text
+                textTransform={"capitalize"}
+                fontWeight={"medium"}
+                fontSize={"lg"}
+                textAlign={"center"}
+                color={"white"}
+              >
+                {player.position === "Goalkeeper"
+                  ? "GK"
+                  : player.position === "Defender"
+                  ? "DF"
+                  : player.position === "Midfielder"
+                  ? "MF"
+                  : "FW"}
+              </Text>
+            </Flex>
             <Text
               textTransform={"capitalize"}
               fontWeight={"medium"}

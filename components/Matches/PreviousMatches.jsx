@@ -174,7 +174,7 @@ const PreviousMatches = () => {
                       {match.away_team.name}
                     </Box>
                     <Text mt='1' fontWeight='semibold' textAlign={"center"}>
-                      {match.home_team.country}
+                      {match.away_team.country}
                     </Text>
                   </Box>
                 </Grid>

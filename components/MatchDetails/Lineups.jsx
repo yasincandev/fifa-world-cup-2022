@@ -17,15 +17,16 @@ const Lineups = ({ home_team_lineup, away_team_lineup }) => {
   const awayLineup = away_team_lineup?.starting_eleven;
 
   return (
-    <Box>
-      <Heading as='h3' size='md' mb='2'>
+    <Box zIndex={1} position='relative'>
+      <Heading as='h3' size='md' mb='2' textAlign={"center"}>
         Lineup
       </Heading>
       <Flex
         direction={{ base: "column", md: "row" }}
-        justifyContent={"space-between"}
+        justifyContent={"space-evenly"}
         alignItems={"center"}
-        p={{ base: 2, sm: 12, md: 17 }}
+        p={{ base: 5, sm: 12, md: 17 }}
+        gap={5}
       >
         <HomeLineup homeLineup={homeLineup} />
 

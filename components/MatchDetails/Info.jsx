@@ -22,7 +22,19 @@ const Info = ({ datetime, venue, stage_name, weather }) => {
         textAlign={"center"}
         fontSize={"lg"}
       >
-        <Icon as={StopWatch} w={10} h={10} fill={"white"} />
+        <Icon
+          as={StopWatch}
+          w={{
+            base: "20px",
+            md: "30px",
+          }}
+          h={{
+            base: "20px",
+            md: "30px",
+          }}
+          fill={"white"}
+        />
+
         <Text ml={2}>{dayjs(datetime).format("DD MMMM YYYY, HH:mm")}</Text>
       </Flex>
 
@@ -33,7 +45,18 @@ const Info = ({ datetime, venue, stage_name, weather }) => {
         textAlign={"center"}
         fontSize={"lg"}
       >
-        <Icon as={Stadium} w={10} h={10} fill={"white"} />
+        <Icon
+          w={{
+            base: "20px",
+            md: "30px",
+          }}
+          h={{
+            base: "20px",
+            md: "30px",
+          }}
+          as={Stadium}
+          fill={"white"}
+        />
         <Text ml={2}>{venue}</Text>
       </Flex>
     </Flex>

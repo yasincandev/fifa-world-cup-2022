@@ -7,9 +7,9 @@ import {
   Container,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Groups from "./Groups";
-import PreviousMatches from "./PreviousMatches";
-import Today from "./Today";
+import Groups from "./Matches/Groups";
+import PreviousMatches from "./Matches/PreviousMatches";
+import Today from "./Matches/Today";
 
 const Main = ({ matches, teams, previous }) => {
   return (

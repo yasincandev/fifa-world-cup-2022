@@ -5,59 +5,21 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
+  Button,
   Spinner,
+  Flex,
+  Image,
+  Box,
 } from "@chakra-ui/react";
 import Score from "./Score";
 import Info from "./Info";
 import Goals from "./Goals";
 import Lineups from "./Lineups";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
-const MatchDetails = ({
-  selectedMatch,
-  setSelectedMatch,
-  country,
-  id,
-  loading,
-  setLoading,
-}) => {
-  const getMatchDetails = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(
-        `https://worldcupjson.net/matches/country/${country}?details=true`
-      );
-      const match = data.filter((match) => match.id === id);
-      console.log(match);
-      await setSelectedMatch(match[0]);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+import Link from "next/link";
+import Statistics from "./Statistics";
 
-  useEffect(() => {
-    getMatchDetails();
-  }, []);
-
-  /*  useEffect(() => {
-    
-          setLoading(true);
-          const getDetails = async () => {
-            const { data } = await axios.get(
-           
-            );
-            const match = data.find((match) => match.id === id);
-            setSelectedMatch(match);
-          };
-      
-          setLoading(false);
-          getDetails();
-        }, []); */
+const MatchDetails = ({ match, isFetching }) => {
   const {
     home_team_country,
     away_team_country,
@@ -73,11 +35,10 @@ const MatchDetails = ({
     away_team_lineup,
     home_team_statistics,
     away_team_statistics,
-  } = selectedMatch;
+  } = match;
 
   return (
-    <Container
-      maxW='container.xl'
+    <Box
       bg={"#8D1B3D"}
       _dark={{
         bg: "#550065",
@@ -86,11 +47,34 @@ const MatchDetails = ({
       mx={"auto"}
       py={5}
       px={{ base: 2, sm: 12, md: 17 }}
+      mb={5}
+      w={{ base: "100%", md: "90%" }}
+      borderRadius={"md"}
     >
-      {loading ? (
-        <Spinner />
+      {isFetching ? (
+        <Flex align={"center"} justify={"center"}>
+          <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='lg'
+            mx={"auto"}
+          />
+        </Flex>
       ) : (
         <>
+          <Link href='/'>
+            <Button
+              color={"black"}
+              variant='outline'
+              mb={5}
+              bg={"white"}
+              size='md'
+            >
+              Go Back
+            </Button>
+          </Link>
           <Score
             home_team={home_team}
             away_team={away_team}
@@ -113,20 +97,23 @@ const MatchDetails = ({
               <Tab>Statistics</Tab>
             </TabList>
             <TabPanels>
-              <TabPanel>
+              <TabPanel p={{ base: 2, sm: 12, md: 17 }}>
                 <Lineups
                   home_team_lineup={home_team_lineup}
                   away_team_lineup={away_team_lineup}
                 />
               </TabPanel>
               <TabPanel>
-                <p>2</p>
+                <Statistics
+                  home={home_team_statistics}
+                  away={away_team_statistics}
+                />
               </TabPanel>
             </TabPanels>
           </Tabs>
         </>
       )}
-    </Container>
+    </Box>
   );
 };
 

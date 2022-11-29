@@ -16,6 +16,7 @@ import { BsStopwatch } from "react-icons/bs";
 
 import { Weather } from "../Icons";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const CurrentMatch = () => {
   const { isLoading, error, data, isFetching } = useQuery(

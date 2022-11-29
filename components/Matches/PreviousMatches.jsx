@@ -9,6 +9,8 @@ import {
   Grid,
   Button,
   Spinner,
+  Stack,
+  Input,
 } from "@chakra-ui/react";
 import { MdOutlinePlace } from "react-icons/md";
 import { BsStopwatch } from "react-icons/bs";
@@ -16,6 +18,10 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
+import { Search2Icon } from "@chakra-ui/icons";
+import Loading from "../Loading";
+import FilteredMatches from "./FilteredMatches";
 
 const PreviousMatches = () => {
   const { isLoading, error, data, isFetching } = useQuery(
@@ -25,6 +31,20 @@ const PreviousMatches = () => {
         .get("https://worldcupjson.net/matches/?by_date=ASC")
         .then((res) => res.data)
   );
+
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    const filtered = data.filter((item) => {
+      return (
+        item.home_team.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.away_team.name.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+    setFilteredData(filtered);
+  };
 
   const router = useRouter();
   return (
@@ -49,17 +69,40 @@ const PreviousMatches = () => {
       >
         Previous Matches And Results
       </chakra.h1>
+      <Stack>
+        <Text
+          fontSize={"xl"}
+          fontWeight={"bold"}
+          color={"black"}
+          _dark={{
+            color: "white",
+          }}
+        >
+          Search for a match
+        </Text>
+        <Input
+          focusBorderColor={"#8D1B3D"}
+          _dark={{
+            bg: "#550065",
+            color: "white",
+          }}
+          placeholder='Search by team name'
+          onChange={handleSearch}
+        />
+      </Stack>
+
       {isLoading ? (
-        <Flex align={"center"} justify={"center"}>
-          <Spinner
-            thickness='4px'
-            speed='0.65s'
-            emptyColor='gray.200'
-            color='blue.500'
-            size='lg'
-            mx={"auto"}
-          />
-        </Flex>
+        <Loading />
+      ) : search.length > 2 ? (
+        filteredData?.map(
+          (match) =>
+            match.status === "completed" &&
+            (isLoading ? (
+              <Loading key={match.id} />
+            ) : (
+              <FilteredMatches key={match.name} match={match} />
+            ))
+        )
       ) : (
         data?.map(
           (match) =>

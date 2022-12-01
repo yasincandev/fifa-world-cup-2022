@@ -42,7 +42,7 @@ const CurrentMatch = () => {
         Now Playing
       </chakra.h1>
 
-      {!data ? (
+      {data.length === 0 ? (
         <Flex
           justifyContent={"space-evenly"}
           alignItems={"center"}

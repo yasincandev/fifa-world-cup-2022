@@ -27,6 +27,8 @@ const CurrentMatch = () => {
         .then((res) => res.data)
   );
 
+  console.log(data);
+
   return (
     <Box mb={10} maxW='7xl' mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
       <chakra.h1
@@ -42,7 +44,7 @@ const CurrentMatch = () => {
         Now Playing
       </chakra.h1>
 
-      {data.length === 0 ? (
+      {data?.length === 0 ? (
         <Flex
           justifyContent={"space-evenly"}
           alignItems={"center"}
